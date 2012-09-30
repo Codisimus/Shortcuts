@@ -50,6 +50,11 @@ commands:
     usage: /spy [Player]
     permission: shortcuts.spy
     permission-message: You do not have permission to do that
+  ban:
+    description: Temporarily bans the specified Player
+    usage: /ban [Player] [Time] [Reason]
+    permission: shortcuts.ban
+    permission-message: You do not have permission to do that
 permissions:
   shortcuts.w:
     default: true
@@ -68,4 +73,6 @@ permissions:
   shortcuts.tph:
     default: op
   shortcuts.spy:
+    default: op
+  shortcuts.ban:
     default: op

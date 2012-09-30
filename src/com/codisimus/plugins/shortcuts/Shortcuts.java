@@ -1,21 +1,33 @@
 package com.codisimus.plugins.shortcuts;
 
+import java.io.File;
+import java.util.Properties;
 import org.bukkit.Server;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Shortcuts extends JavaPlugin {
     static Server server;
+    static PluginManager pm;
+    static String dataFolder;
 
-    @Override
-    public void onDisable () {
-    }
-    
     @Override
     public void onEnable () {
         server = getServer();
-        
-        //Register Commands
+        pm = server.getPluginManager();
+
+        File dir = this.getDataFolder();
+        if (!dir.isDirectory()) {
+            dir.mkdir();
+        }
+
+        dataFolder = dir.getPath();
+
+        /* Register Events */
+        pm.registerEvents(new BanHandler(), this);
+
+        /* Register Commands */
         getCommand("td").setExecutor(new DownfallCommand());
         CommandExecutor executer = new TimeCommand();
         getCommand("day").setExecutor(executer);
@@ -28,7 +40,14 @@ public class Shortcuts extends JavaPlugin {
         getCommand("tp").setExecutor(executer);
         getCommand("tph").setExecutor(executer);
         getCommand("spy").setExecutor(new SpyCommand());
-        
-        System.out.println("Shortcuts "+this.getDescription().getVersion()+" is enabled!");
+        getCommand("ban").setExecutor(new TempBanCommand());
+
+        Properties version = new Properties();
+        try {
+            version.load(this.getResource("version.properties"));
+        } catch (Exception ex) {
+        }
+        getLogger().info("Shortcuts " + this.getDescription().getVersion()
+                + " (Build " + version.getProperty("Build") + ") is enabled!");
     }
 }

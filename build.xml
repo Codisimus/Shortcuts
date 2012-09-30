@@ -7,7 +7,7 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="ButtonWarp" default="default" basedir=".">
+<project name="Shortcuts" default="default" basedir=".">
     <description>Builds, tests, and runs the project Hatch.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
@@ -71,8 +71,14 @@
     nbproject/build-impl.xml file. 
 
     -->
+    <target name="-pre-jar" > 
+        <propertyfile file="${src.dir}\version.properties"> 
+            <entry key="Build" value="1" type="int" operation="+"/> 
+        </propertyfile> 
+    </target>
+    
     <target name="-post-jar">
-        <copy failonerror="false" file="${dist.jar}" todir="C:\Users\Cody\Dropbox\Public\Plugins\Dev Builds"/>
+        <copy failonerror="true" file="${dist.jar}" todir="..\Libraries"/>
 
         <delete dir="${build.dir}"/>
     </target>
