@@ -1,10 +1,30 @@
 name: Shortcuts
 main: com.codisimus.plugins.shortcuts.Shortcuts
-version: 0.1.0
+version: 0.2.0
 author: Codisimus
 website: www.codisimus.com
 description: Shortcuts to executing console commands
 commands:
+  prl:
+    description: Reloads a specified plugin
+    usage: /prl <plugin>
+    permission: shortcuts.plr
+    permission-message: You do not have permission to do that
+  enable:
+    description: Enables a specified plugin
+    usage: /enable <plugin>
+    permission: shortcuts.enable
+    permission-message: You do not have permission to do that
+  disable:
+    description: Disables a specified plugin
+    usage: /enable <plugin>
+    permission: shortcuts.disable
+    permission-message: You do not have permission to do that
+  spawn:
+    description: Teleports you to the server spawn
+    usage: /spawn
+    permission: shortcuts.spawn
+    permission-message: You do not have permission to do that
   w:
     description: Sends a private message to the specified Player
     usage: /w [Player] [Message]
@@ -55,7 +75,25 @@ commands:
     usage: /ban [Player] [Time] [Reason]
     permission: shortcuts.ban
     permission-message: You do not have permission to do that
+  setspawn:
+    description: Changes the Server spawn to your current location
+    usage: /setspawn
+    permission: shortcuts.setspawn
+    permission-message: You do not have permission to do that
+  fly:
+    description: Allows you to fly at high speeds even while in survival mode
+    usage: /fly
+    permission: shortcuts.fly
+    permission-message: You do not have permission to do that
 permissions:
+  shortcuts.prl:
+    default: op
+  shortcuts.enable:
+    default: op
+  shortcuts.disable:
+    default: op
+  shortcuts.spawn:
+    default: true
   shortcuts.w:
     default: true
   shortcuts.re:
@@ -75,4 +113,8 @@ permissions:
   shortcuts.spy:
     default: op
   shortcuts.ban:
+    default: op
+  shortcuts.setspawn:
+    default: op
+  shortcuts.fly:
     default: op

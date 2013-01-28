@@ -2,6 +2,7 @@ package com.codisimus.plugins.shortcuts;
 
 import java.io.*;
 import java.util.Calendar;
+import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -44,7 +45,7 @@ public class APITools {
     public static String concatArgs(String[] args, int first, int last) {
         String string = "";
         for (int i = first; i <= last; i++) {
-            string = " "+string.concat(args[i]);
+            string = string + " " + args[i];
         }
         return string.isEmpty() ? string : string.substring(1);
     }
@@ -87,7 +88,7 @@ public class APITools {
      * @param money The double value that will be trimmed
      * @return The double value that has been trimmed
      */
-    private static double trim(double money) {
+    public static double trim(double money) {
         if (useWholeNumbers) {
             return (int) money;
         }
@@ -106,6 +107,29 @@ public class APITools {
         return string.replace("&", "§").replace("<ae>", "æ").replace("<AE>", "Æ")
                 .replace("<o/>", "ø").replace("<O/>", "Ø")
                 .replace("<a>", "å").replace("<A>", "Å");
+    }
+
+    /**
+     * Returns the remaining time until the Button resets
+     * Returns null if the Button never resets
+     *
+     * @param time The given time
+     * @return the remaining time until the Button resets
+     */
+    public static String getTimeRemaining(long time) {
+        long timeRemaining = time - System.currentTimeMillis();
+
+        if (timeRemaining > DateUtils.MILLIS_PER_DAY) {
+            return (int) timeRemaining / DateUtils.MILLIS_PER_DAY + " day(s)";
+        } else if (timeRemaining > DateUtils.MILLIS_PER_HOUR) {
+            return (int) timeRemaining / DateUtils.MILLIS_PER_HOUR + " hour(s)";
+        } else if (timeRemaining > DateUtils.MILLIS_PER_MINUTE) {
+            return (int) timeRemaining / DateUtils.MILLIS_PER_MINUTE + " minute(s)";
+        } else if (timeRemaining > DateUtils.MILLIS_PER_SECOND) {
+            return (int) timeRemaining / DateUtils.MILLIS_PER_SECOND + " second(s)";
+        } else {
+            return "1 second";
+        }
     }
 
     public static String getTimeDifference(Calendar timeInFuture, Calendar currentTime) {
@@ -203,12 +227,12 @@ public class APITools {
             //if file, then copy it
             //Use bytes stream to support all file types
             InputStream in = new FileInputStream(src);
-            OutputStream out = new FileOutputStream(dest); 
+            OutputStream out = new FileOutputStream(dest);
 
             byte[] buffer = new byte[1024];
 
             int length;
-            //copy the file content in bytes 
+            //copy the file content in bytes
             while ((length = in.read(buffer)) > 0) {
                 out.write(buffer, 0, length);
             }

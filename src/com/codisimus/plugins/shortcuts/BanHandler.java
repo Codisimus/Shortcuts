@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class BanHandler implements Listener {
-    static HashMap<String, Calendar> bannedPlayers = new HashMap<String, Calendar>();
+    static HashMap<String, Long> bannedPlayers = new HashMap<String, Long>();
 
     public static void load() {
         File file = new File(Shortcuts.dataFolder + "/bannedPlayers.dat");
@@ -25,7 +25,7 @@ public class BanHandler implements Listener {
             fis = new FileInputStream(file);
             ois = new ObjectInputStream(fis);
 
-            bannedPlayers = (HashMap<String, Calendar>) ois.readObject();
+            bannedPlayers = (HashMap<String, Long>) ois.readObject();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -65,10 +65,10 @@ public class BanHandler implements Listener {
             return;
         }
 
-        Calendar future = bannedPlayers.get(playerName);
-        Calendar current = Calendar.getInstance();
-        if (current.before(future)) {
-            player.kickPlayer("You are banned for " + APITools.getTimeDifference(future, current));
+        long future = bannedPlayers.get(playerName);
+        long current = System.currentTimeMillis();
+        if (current < future) {
+            player.kickPlayer("You are banned for " + APITools.getTimeRemaining(future));
         } else {
             bannedPlayers.remove(playerName);
         }
@@ -76,7 +76,7 @@ public class BanHandler implements Listener {
 
     public static String banPlayer(String playerName, String time, String reason) {
         Calendar future = APITools.getFutureTime(time);
-        bannedPlayers.put(playerName, future);
+        bannedPlayers.put(playerName, future.getTimeInMillis());
 
         String banMessage = "been banned for " + APITools.getTimeDifference(future, Calendar.getInstance()) + " for " + reason;
 
