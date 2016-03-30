@@ -11,16 +11,12 @@
     <target name="download-dependencies" depends="download-clean">
         <mkdir dir="${download.lib.dir}" />
 
-        <get dest="${download.lib.dir}/spigot-api.jar">
+        <!--<get dest="${download.lib.dir}/spigot-api.jar">
             <url url="https://hub.spigotmc.org/nexus/service/local/artifact/maven/redirect?r=snapshots&amp;g=org.spigotmc&amp;a=spigot-api&amp;v=LATEST&amp;c=shaded"/>
-        </get>
+        </get>-->
     </target>
 
     <target name="compile-latest-deps" depends="init,-pre-pre-compile,download-dependencies">
-        <waitfor maxwait="30" maxwaitunit="second">
-            <available file="${download.lib.dir}/spigot-api.jar"/>
-        </waitfor>
-
         <property name="lib.dir" location="lib" />
         <path id="build.classpath">
             <fileset dir="${lib.dir}">
