@@ -1,4 +1,5 @@
 language: java
+install: ant download-dependencies
 script: ant ci
 
 branches:
