@@ -16,7 +16,11 @@
         </get>
     </target>
 
-    <target name="compile-latest-deps" depends="init,-pre-pre-compile">
+    <target name="compile-latest-deps" depends="init,-pre-pre-compile,download-dependencies">
+        <waitfor maxwait="30" maxwaitunit="second">
+            <available file="${download.lib.dir}/spigot-api.jar"/>
+        </waitfor>
+
         <property name="lib.dir" location="lib" />
         <path id="build.classpath">
             <fileset dir="${lib.dir}">
