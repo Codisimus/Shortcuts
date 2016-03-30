@@ -1,6 +1,6 @@
 name: Shortcuts
 main: com.codisimus.plugins.shortcuts.Shortcuts
-version: 0.2.0
+version: 0.4.2
 author: Codisimus
 website: www.codisimus.com
 description: Shortcuts to executing console commands
@@ -8,7 +8,7 @@ commands:
   prl:
     description: Reloads a specified plugin
     usage: /prl <plugin>
-    permission: shortcuts.plr
+    permission: shortcuts.prl
     permission-message: You do not have permission to do that
   enable:
     description: Enables a specified plugin
@@ -45,6 +45,11 @@ commands:
     usage: /day
     permission: shortcuts.day
     permission-message: You do not have permission to do that
+  noon:
+    description: Sets time of current World to 6000
+    usage: /noon
+    permission: shortcuts.noon
+    permission-message: You do not have permission to do that
   night:
     description: Sets time of current World to 18000
     usage: /night
@@ -54,6 +59,11 @@ commands:
     description: Toggles gamemode of specified Player
     usage: /gm (Player)
     permission: shortcuts.gm
+    permission-message: You do not have permission to do that
+  heal:
+    description: Heals the specified Player
+    usage: /heal (Player)
+    permission: shortcuts.heal
     permission-message: You do not have permission to do that
   tp:
     description: Teleports the specified Player to another Player
@@ -102,6 +112,8 @@ permissions:
     default: op
   shortcuts.day:
     default: op
+  shortcuts.noon:
+    default: op
   shortcuts.night:
     default: op
   shortcuts.gm:
@@ -118,3 +130,15 @@ permissions:
     default: op
   shortcuts.fly:
     default: op
+  shortcuts.time:
+    description: Groups all nodes used for time modification
+    children:
+      shortcuts.day: true
+      shortcuts.noon: true
+      shortcuts.night: true
+  shortcuts.pluginloading:
+    description: Groups all nodes used for loading other plugins
+    children:
+      shortcuts.prl: true
+      shortcuts.enable: true
+      shortcuts.disable: true

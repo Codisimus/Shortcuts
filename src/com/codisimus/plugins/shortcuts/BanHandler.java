@@ -3,6 +3,7 @@ package com.codisimus.plugins.shortcuts;
 import java.io.*;
 import java.util.Calendar;
 import java.util.HashMap;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,10 +11,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class BanHandler implements Listener {
-    static HashMap<String, Long> bannedPlayers = new HashMap<String, Long>();
+    static HashMap<String, Long> bannedPlayers = new HashMap<>();
 
     public static void load() {
-        File file = new File(Shortcuts.dataFolder + "/bannedPlayers.dat");
+        File file = new File(Shortcuts.dataFolder, "bannedPlayers.dat");
         if (!file.exists()) {
             return;
         }
@@ -30,15 +31,24 @@ public class BanHandler implements Listener {
             e.printStackTrace();
         } finally {
             try {
-                ois.close();
-                fis.close();
+                if (ois != null) {
+                    ois.close();
+                }
             } catch (Exception e) {
+                //Fail silently
+            }
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (Exception e) {
+                //Fail silently
             }
         }
     }
 
     public static void save() {
-        File file = new File(Shortcuts.dataFolder + "/bannedPlayers.dat");
+        File file = new File(Shortcuts.dataFolder, "bannedPlayers.dat");
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
 
@@ -50,9 +60,18 @@ public class BanHandler implements Listener {
             e.printStackTrace();
         } finally {
             try {
-                oos.close();
-                fos.close();
+                if (oos != null) {
+                    oos.close();
+                }
             } catch (Exception e) {
+                //Fail silently
+            }
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (Exception e) {
+                //Fail silently
             }
         }
     }
@@ -80,7 +99,7 @@ public class BanHandler implements Listener {
 
         String banMessage = "been banned for " + APITools.getTimeDifference(future, Calendar.getInstance()) + " for " + reason;
 
-        Player player = Shortcuts.server.getPlayer(playerName);
+        Player player = Bukkit.getPlayer(playerName);
         if (player != null) {
             player.kickPlayer("You have " + banMessage);
         }

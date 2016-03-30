@@ -2,6 +2,7 @@ package com.codisimus.plugins.shortcuts;
 
 import java.io.*;
 import java.util.Calendar;
+import java.util.List;
 import org.apache.commons.lang.time.DateUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -48,6 +49,22 @@ public class APITools {
             string = string + " " + args[i];
         }
         return string.isEmpty() ? string : string.substring(1);
+    }
+
+    /**
+     * Concats objects together to create a single String.
+     *
+     * @param list the List to concat
+     * @param delimeter the String to place between each list item
+     * @return The new String that was created
+     */
+    public static String concatList(List<Object> list, String delimeter) {
+        StringBuilder sb = new StringBuilder();
+        for (Object obj : list) {
+            sb.append(delimeter);
+            sb.append(obj);
+        }
+        return sb.substring(delimeter.length());
     }
 
     public static boolean isNumerical(String string) {
